@@ -5,5 +5,5 @@ import com.harvey.runningapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment: Fragment(R.layout.fragment_settings) {
+class SetupFragment: Fragment(R.layout.fragment_setup) {
 }
