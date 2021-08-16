@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.GoogleMap
 import com.harvey.runningapp.R
 import com.harvey.runningapp.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.harvey.runningapp.services.Polyline
 import com.harvey.runningapp.services.TrackingService
 import com.harvey.runningapp.ui.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,9 @@ import kotlinx.android.synthetic.main.fragment_tracking.*
 class TrackingFragment: Fragment(R.layout.fragment_tracking) {
 
     private val viewModel: MainViewModel by viewModels()
+
+    private var isTracking = false
+    private var pathPoints = mutableListOf<Polyline>()
 
     private var map: GoogleMap? = null
 
@@ -28,6 +32,15 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         }
         mapView.getMapAsync {
             map = it
+        }
+    }
+
+    private fun subscribeToObservers() {
+        TrackingService.isTracking.observe(viewLifecycleOwner) {
+
+        }
+        TrackingService.pathPoints.observe(viewLifecycleOwner) {
+            
         }
     }
 
