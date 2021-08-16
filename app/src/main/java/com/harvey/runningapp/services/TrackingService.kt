@@ -1,9 +1,4 @@
-package com.harv
-
-import android.location.Location
-import com.google.android.gms.location.LocationResult
-
-()ey.runningapp.services
+package com.harvey.runningapp.services
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -13,6 +8,7 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Build
 import android.os.Looper
 import androidx.annotation.RequiresApi
@@ -23,6 +19,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.harvey.runningapp.R
 import com.harvey.runningapp.other.Constants.ACTION_PAUSE_SERVICE
@@ -131,7 +128,15 @@ class TrackingService : LifecycleService() {
         }
     }
 
+    private fun addEmptyPolyline() = pathPoints.value?.apply {
+        add(mutableListOf())
+        pathPoints.postValue(this)
+    } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
+
     private fun startForegroundService() {
+        addEmptyPolyline()
+        isTracking.postValue(true)
+
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
