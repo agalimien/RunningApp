@@ -37,11 +37,17 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
 
     private fun subscribeToObservers() {
         TrackingService.isTracking.observe(viewLifecycleOwner) {
-
+            updateTracking(it)
         }
         TrackingService.pathPoints.observe(viewLifecycleOwner) {
-            
+            pathPoints = it
+            addLatestPolyline()
+            moveCameraToUser()
         }
+    }
+
+    private fun toggleRun() {
+
     }
 
     private fun sendCommandToService(action: String) {
