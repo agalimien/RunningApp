@@ -108,12 +108,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
     }
 
-    private fun sendCommandToService(action: String) {
+    private fun sendCommandToService(action: String) =
         Intent(requireContext(), TrackingService::class.java).also {
             it.action = action
             requireContext().startService(it)
         }
-    }
 
     override fun onResume() {
         super.onResume()
