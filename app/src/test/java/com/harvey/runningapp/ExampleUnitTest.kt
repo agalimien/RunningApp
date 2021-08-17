@@ -2,6 +2,7 @@ package com.harvey.runningapp
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,6 +12,9 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        val timeVal: Long = ((2*60*60) + (25*60)) * 1000
+        println(TimeUnit.MILLISECONDS.toHours(timeVal))
+        println(TimeUnit.MILLISECONDS.toMinutes(timeVal))
+        true
     }
 }
