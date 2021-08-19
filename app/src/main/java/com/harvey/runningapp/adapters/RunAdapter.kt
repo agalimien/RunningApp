@@ -1,13 +1,18 @@
 package com.harvey.runningapp.adapters
 
+import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.harvey.runningapp.R
 import com.harvey.runningapp.db.Run
+import com.harvey.runningapp.other.TrackingUtility
+import kotlinx.android.synthetic.main.item_run.view.*
+import java.util.*
 
 class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
 
@@ -42,6 +47,27 @@ class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val run = differ.currentList[position]
+        holder.itemView.apply {
+            Glide.with(this).load(run.img).into(ivRunImage)
+
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = run.timestamp
+            }
+
+            val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+            tvDate.text = dateFormat.format(calendar.time)
+
+            val avgSpeed = "${run.avgSpeedInKMH}km/h"
+            tvAvgSpeed.text = avgSpeed
+
+            val distanceInKm = "${run.distanceInMeters / 1000f}km"
+            tvDistance.text = distanceInKm
+
+            tvTime.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
+
+            val caloriesBurned = "${run.caloriesBurned}kcal"
+            tvCalories.text = caloriesBurned
+        }
     }
 }
