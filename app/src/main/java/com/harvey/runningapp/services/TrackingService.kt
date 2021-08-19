@@ -78,7 +78,6 @@ class TrackingService : LifecycleService() {
         super.onCreate()
         curNotificationBuilder = baseNotificationBuilder
         postInitialValues()
-        fusedLocationProviderClient = FusedLocationProviderClient(this)
 
         isTracking.observe(this) {
             updateLocationTracking(it)
