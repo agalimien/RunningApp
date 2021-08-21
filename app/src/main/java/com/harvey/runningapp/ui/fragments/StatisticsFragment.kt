@@ -82,9 +82,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             }
         }
         viewModel.runsSortedByDate.observe(viewLifecycleOwner) {
-            it?.let {
-                val allAvgSpeeds = it.indices.map { i ->
-                    BarEntry(i.toFloat(), it[i].avgSpeedInKMH)
+            it?.let { runList ->
+                val listAscending = runList.reversed()
+                val allAvgSpeeds = listAscending.indices.map { i ->
+                    BarEntry(i.toFloat(), listAscending[i].avgSpeedInKMH)
                 }
                 val bardataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
                     valueTextColor = Color.WHITE
@@ -93,8 +94,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 barChart.apply {
                     data = BarData(bardataSet)
 
-                    //Check: why reversed required?
-                    marker = CustomMarkerView(it.reversed(), requireContext(), R.layout.marker_view)
+                    //Check: why reversed required? Ans: sort by date descending
+                    marker = CustomMarkerView(listAscending, requireContext(), R.layout.marker_view)
 
                     invalidate()
                 }
